@@ -1,11 +1,11 @@
 ## Project setup
 ```
-npm install
+npm install || yarn
 ```
 
 ### Run
 ```
-node server.js
+node server.js || nodemon
 ```
 
 ### Test
