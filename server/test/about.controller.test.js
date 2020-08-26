@@ -1,24 +1,12 @@
 const request = require('supertest')
 const app = require('../../index')
 const About = require('../models').About
+const username = require('os').userInfo().username
 
 describe('About API', () => {
 	beforeAll(async () => {
 		About.bulkCreate([
 			{
-				titleTH: 'req.body.12',
-				titleEN: 'req.body.21',
-				detailTH: 'req.body.23',
-				detailEN: 'req.body.32',
-				image: '1',
-				statusFlag: 'A',
-				createdBy: '1',
-				updatedBy: '1',
-				createdAt: new Date(),
-				updatedAt: new Date()
-			},
-			{
-				id: 199,
 				titleTH: 'req.body.12',
 				titleEN: 'req.body.21',
 				detailTH: 'req.body.23',
@@ -64,7 +52,7 @@ describe('About API', () => {
 				detailEN: 'req.body.32',
 				image: '1',
 				statusFlag: 'A',
-				username: 'chunwarayut'
+				username
 			})
 			expect(res.statusCode).toEqual(201)
 			done()
@@ -84,7 +72,7 @@ describe('About API', () => {
 				detailEN: 'd',
 				image: 1,
 				statusFlag: 'A',
-				username: 'chunwarayut'
+				username
 			})
 			expect(res.statusCode).toEqual(201)
 			done()
@@ -97,7 +85,7 @@ describe('About API', () => {
 				detailEN: 'req.body.32',
 				image: '1',
 				statusFlag: 'AA',
-				username: 'chunwarayut'
+				username
 			})
 			expect(res.statusCode).toEqual(400)
 			done()
