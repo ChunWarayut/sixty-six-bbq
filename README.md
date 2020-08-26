@@ -31,14 +31,19 @@ Create a Database `testdb` in Postgres Dashboard
 $ node_modules/.bin/sequelize db:migrate      
 ```
 
+#### Install node_module
+
+```
+$ yarn
+```
 #### To Run Test Application
 
 ```
-$ npm run test
+$ yarn run test
 ```
 #### Initial Project
 ```
-$ npm run db:init
+$ yarn run db:init
 ```
 #### To Run Application
 
