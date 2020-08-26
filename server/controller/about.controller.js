@@ -66,7 +66,6 @@ module.exports = {
 	async create(req, res) {
 		const username = await req.body.username
 		const userID = await master.getUserByUsername(username)
-
 		if (
 			!req.body.titleTH ||
 			!req.body.titleEN ||
@@ -74,7 +73,7 @@ module.exports = {
 			!req.body.detailEN ||
 			!req.body.image ||
 			!req.body.statusFlag ||
-			!userID.id
+			!userID
 		) {
 			res.status(400).send({
 				message: 'Content can not be empty!'
