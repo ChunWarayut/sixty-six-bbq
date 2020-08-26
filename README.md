@@ -31,6 +31,11 @@ Create a Database `testdb` in Postgres Dashboard
 $ node_modules/.bin/sequelize db:migrate      
 ```
 
+#### To Run Test Application
+
+```
+$ npm run test
+```
 #### Initial Project
 ```
 $ npm run db:init
@@ -39,11 +44,6 @@ $ npm run db:init
 
 ```
 $ node index.js || nodemon
-```
-#### To Run Test Application
-
-```
-$ npm run test
 ```
 #### To Push Application
 
