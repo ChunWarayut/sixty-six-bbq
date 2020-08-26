@@ -23,7 +23,7 @@
     "db:init": "npm run create-db && npm run init",
     "db:re": "npm run drop-db && npm run db:init || npm run db:init",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=1000",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000",
     "pretest": "cross-env NODE_ENV=test npm run db:reset",
     "db:create:test": "cross-env NODE_ENV=test npx sequelize-cli db:create"
   },
