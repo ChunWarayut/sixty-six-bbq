@@ -39,11 +39,11 @@ $ yarn
 #### To Run Test Application
 
 ```
-$ yarn run test
+$ npm run test
 ```
 #### Initial Project
 ```
-$ yarn run db:init
+$ npm run db:init
 ```
 #### To Run Application
 
