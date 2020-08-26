@@ -1,0 +1,57 @@
+{
+  "name": "node-sequelize-sixty-six-bbq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "create-db": "sequelize db:create",
+    "drop-db": "sequelize db:drop",
+    "seed": "sequelize-cli db:seed",
+    "seed-all": "sequelize-cli db:seed:all",
+    "undo-seed": "sequelize-cli db:seed:undo",
+    "undo-seed-all": "sequelize-cli db:seed:undo:all",
+    "migrate": "sequelize-cli db:migrate",
+    "undo-migrate": "sequelize-cli db:migrate:undo",
+    "undo-migrate-all": "sequelize-cli db:migrate:undo:all",
+    "add-seed": "sequelize-cli seed:generate --name",
+    "prettier": "prettier --write \"**/*.js\"",
+    "p": "prettier --write '**/*.js'",
+    "init": "npm run migrate && npm run seed-all",
+    "unit": "npm run undo-migrate-all && npm run init",
+    "db:pre-migrate": "node scripts/createDB.scripts.js",
+    "db:init": "npm run create-db && npm run init",
+    "db:re": "npm run drop-db && npm run db:init || npm run db:init",
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=1000",
+    "pretest": "cross-env NODE_ENV=test npm run db:reset",
+    "db:create:test": "cross-env NODE_ENV=test npx sequelize-cli db:create"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.1.0",
+    "onchange": "^7.0.2",
+    "password-hash": "^1.2.2",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "4.38.1",
+    "sequelize-cli": "^4.1.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jest": "^26.4.2",
+    "prettier": "2.1.0",
+    "supertest": "^4.0.2"
+  }
+}
