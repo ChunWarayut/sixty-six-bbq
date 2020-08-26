@@ -45,3 +45,9 @@ $ node index.js || nodemon
 ```
 $ npm run test
 ```
+#### To Push Application
+
+```
+$ git push origin
+$ git push upstream
+```
