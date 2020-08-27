@@ -23,6 +23,14 @@ module.exports = {
 					updatedBy: 1,
 					createdAt: date,
 					updatedAt: date
+				},
+				{
+					name: 'USER',
+					level: 2,
+					createdBy: 1,
+					updatedBy: 1,
+					createdAt: date,
+					updatedAt: date
 				}
 			],
 			{}

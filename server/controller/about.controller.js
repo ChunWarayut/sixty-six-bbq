@@ -134,7 +134,12 @@ module.exports = {
 		const id = req.params.id
 		const username = await req.body.username
 		const userID = await master.getUserByUsername(username)
-
+		if (!userID) {
+			res.status(400).send({
+				message: 'Content can not be empty!'
+			})
+			return
+		}
 		try {
 			const aboutCollection = await About.destroy({
 				where: { id: id }
@@ -166,6 +171,12 @@ module.exports = {
 	async deleteAll(req, res) {
 		const username = await req.body.username
 		const userID = await master.getUserByUsername(username)
+		if (!userID) {
+			res.status(400).send({
+				message: 'Content can not be empty!'
+			})
+			return
+		}
 		try {
 			const aboutCollection = await About.destroy({ where: {} })
 
