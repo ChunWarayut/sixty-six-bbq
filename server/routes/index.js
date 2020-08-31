@@ -6,4 +6,5 @@ module.exports = (app) => {
 	})
 
 	require('./about')(app)
+	require('./user')(app)
 }
