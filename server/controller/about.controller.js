@@ -5,10 +5,15 @@ const master = require('../services/master.service')
 
 module.exports = {
 	async findAll(req, res) {
+		console.log(req.query)
+		const page = +req.query.page || 1
+		const limit = +req.query.size || 8
+		console.log(page, 'page')
 		try {
-			const aboutCollection = await About.findAll({
+			const condition = {
 				attributes: ['id', 'titleTH', 'titleEN', 'detailTH', 'detailEN'],
 				where: { statusFlag: 'A' },
+				limit: [(page - 1) * limit, limit],
 				include: [
 					{
 						model: User,
@@ -38,11 +43,20 @@ module.exports = {
 							}
 						]
 					}
-				]
-			})
+				],
+				row: true
+			}
+			const aboutCollection = await About.findAll(condition)
+
+			const aboutCollectionCount = await About.findAndCountAll(condition)
 
 			if (aboutCollection) {
-				res.status(201).send(aboutCollection)
+				res.status(201).send({
+					data: aboutCollection,
+					page,
+					size: limit,
+					total: Math.ceil(aboutCollectionCount.count / limit)
+				})
 			} else {
 				res.status(404).send({ message: 'About Not Found' })
 			}
@@ -66,15 +80,7 @@ module.exports = {
 	async create(req, res) {
 		const username = await req.body.username
 		const userID = await master.getUserByUsername(username)
-		if (
-			!req.body.titleTH ||
-			!req.body.titleEN ||
-			!req.body.detailTH ||
-			!req.body.detailEN ||
-			!req.body.image ||
-			!req.body.statusFlag ||
-			!userID
-		) {
+		if (!req.body.titleTH || !req.body.titleEN || !req.body.detailTH || !req.body.detailEN || !userID) {
 			res.status(400).send({
 				message: 'Content can not be empty!'
 			})
@@ -87,8 +93,6 @@ module.exports = {
 				titleEN: req.body.titleEN,
 				detailTH: req.body.detailTH,
 				detailEN: req.body.detailEN,
-				image: req.body.image,
-				statusFlag: req.body.statusFlag,
 				createdBy: userID.id,
 				updatedBy: userID.id
 			})
