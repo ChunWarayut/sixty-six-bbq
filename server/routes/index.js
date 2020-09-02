@@ -5,5 +5,5 @@ module.exports = (app) => {
 		})
 	})
 
-	require('./about')(app)
+	require('./about')(app), require('./blog')(app)
 }

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-	const Blog = sequelize.define(
+	let Blog = sequelize.define(
 		'Blog',
 		{
 			titleTH: {
@@ -51,6 +51,19 @@ module.exports = (sequelize, Sequelize) => {
 			paranoid: true
 		}
 	)
+
+	Blog.associate = (models) => {
+		Blog.belongsTo(models.User, {
+			foreignKey: 'createdBy',
+			targetKey: 'id',
+			as: 'UserCreate'
+		})
+		Blog.belongsTo(models.User, {
+			foreignKey: 'updatedBy',
+			targetKey: 'id',
+			as: 'UserUpdate'
+		})
+	}
 
 	return Blog
 }
