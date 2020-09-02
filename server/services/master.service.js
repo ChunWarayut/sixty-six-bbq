@@ -21,5 +21,8 @@ module.exports = {
 	},
 	async generatePassword(password) {
 		return passwordHash.generate(password)
+	},
+	async verifyPassword(password, hash) {
+		return passwordHash.verify(password, hash)
 	}
 }
