@@ -129,13 +129,13 @@ exports.aboutUpdate = [
     .isLength({ min: 1 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
-    .isLength(1)
+    .isLength({ min: 1, max: 1 })
     .trim(),
   body('createdBy', 'createdBy must be 24 length.')
-    .isLength(24)
+    .isLength({ min: 24, max: 24 })
     .trim(),
   body('updatedBy', 'updatedBy must be 24 length.')
-    .isLength(24)
+    .isLength({ min: 24, max: 24 })
     .trim(),
   sanitizeBody('*').escape(),
   async (req, res) => {
