@@ -15,4 +15,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: git push upstream 
+      - run: git remote add org git@github.com:10M011y01U001n01c101l00e100S11/sixty-six-bbq-admin.git                                                                                                                                               
+      - run: git remote set-url --add --push org git@github.com:10M011y01U001n01c101l00e100S11/sixty-six-bbq-admin.git
+      - run: git push org    
+        shell: bash
+        
