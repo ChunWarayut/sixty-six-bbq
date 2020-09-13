@@ -20,7 +20,11 @@ exports.productList = [
   async (req, res) => {
     try {
       const products = await Product.find({})
-      return apiResponse.successResponse(res, products)
+      return apiResponse.successResponseWithData(
+        res,
+        'Operation success',
+        products
+      )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
