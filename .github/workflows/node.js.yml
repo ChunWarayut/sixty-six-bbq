@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        repo-token: "P@ssw0rd"
     - run: npm install
     - run: |
         git config --global user.name chunwarayut
