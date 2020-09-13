@@ -1,58 +1,18 @@
-## Building REST API in Node/Express App using Sequelize,Postgres
+RESTFul API with Node.js
+---
 
-This Repository is building REST API Design in Node/Express App using Sequelize and Postgres.
-
-### PreRequisites
-- [Postgres](https://www.postgresql.org/download/)
-- [Node](https://nodejs.org/en/download/)
-
-### Setup
-```
- $ npm install
- $ node_modules/.bin/sequelize init
-```
-Sequelize init will creat a folder `config`,`controller`,`migrations` and `models`
-
-create a file called `.sequelizerc`
-```
-const path = require('path');
-
-module.exports = {
-  "config": path.resolve('./server/config', 'config.json'),
-  "models-path": path.resolve('./server/models'),
-  "seeders-path": path.resolve('./server/seeders'),
-  "migrations-path": path.resolve('./server/migrations')
-};
-```
-
-Create a Database `testdb` in Postgres Dashboard
+## Usage
 
 ```
-$ node_modules/.bin/sequelize db:migrate      
-```
+# Install
+yarn
 
-#### Install node_module
+# Start
+yarn start
 
-```
-$ yarn
-```
-#### To Run Test Application
+# Start with Nodemon
+yarn run dev
 
-```
-$ npm run test
-```
-#### Initial Project
-```
-$ npm run db:init
-```
-#### To Run Application
-
-```
-$ node index.js || nodemon
-```
-#### To Push Application
-
-```
-$ git push origin
-$ git push upstream
+# Format with prettier
+yarn run format
 ```
