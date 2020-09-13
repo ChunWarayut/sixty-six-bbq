@@ -1,7 +1,7 @@
 RESTFul API with Node.js
 ---
 
-## Usage
+### Usage
 
 ```
 # Install
