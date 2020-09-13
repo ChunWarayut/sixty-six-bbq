@@ -20,10 +20,3 @@ jobs:
         repo-token: ${{ secrets.PASSWORD }}
         
     - run: npm install
-    - run: ssh-add -l
-    - run: |
-        git config --global user.name chunwarayut
-        git config --global user.email warayut2555@gmail.com
-    - run: git remote add org git@github.com:10M011y01U001n01c101l00e100S11/sixty-six-bbq-admin.git                                                                                                                                               
-    - run: git remote set-url --add --push org git@github.com:10M011y01U001n01c101l00e100S11/sixty-six-bbq-admin.git
-    - run: git push org
