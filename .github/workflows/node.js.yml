@@ -19,6 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         repo-token: ${{ secrets.PASSWORD }}
         
+    - uses: actions/checkout@v1
     - name: Setup SSH Keys and known_hosts
       env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -32,7 +33,7 @@ jobs:
       env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: ./fetch-deps.sh
-        
+
     - run: npm install
     - run: |
         git config --global user.name chunwarayut
