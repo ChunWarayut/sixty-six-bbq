@@ -13,6 +13,7 @@ function ProductData(data) {
   this.price = data.price
   this.tags = data.tags
   this.createdAt = data.createdAt
+  this.updatedAt = data.updatedAt
 }
 
 exports.productList = [
@@ -31,11 +32,16 @@ exports.productDetail = [
 
     try {
       const product = await Product.findById(id)
-      console.log(product)
-      if (product) {
-        return apiResponse.successResponse(res, product)
+
+      if (product !== null) {
+        let productData = new ProductData(product)
+        return apiResponse.successResponseWithData(
+          res,
+          'Operation success',
+          productData
+        )
       } else {
-        return apiResponse.ErrorResponse(res, 'id not found!')
+        return apiResponse.successResponseWithData(res, 'Operation success', {})
       }
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
@@ -82,7 +88,12 @@ exports.productStore = [
 
       // SAVE PRODUCT
       await product.save()
-      return apiResponse.successResponseWithData(res, product)
+      let productData = new ProductData(product)
+      return apiResponse.successResponseWithData(
+        res,
+        'Product add Success.',
+        productData
+      )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
@@ -139,7 +150,12 @@ exports.productUpdate = [
       })
 
       if (updateProduct) {
-        return apiResponse.successResponse(res, `Product update Success.`)
+        let productData = new ProductData(await Product.findById(id))
+        return apiResponse.successResponseWithData(
+          res,
+          'Product update Success.',
+          productData
+        )
       } else {
         return apiResponse.validationErrorWithData(
           res,
