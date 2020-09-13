@@ -15,4 +15,8 @@ yarn run dev
 
 # Format with prettier
 yarn run format
+
+# Deploy API
+git push upstream
+
 ```
