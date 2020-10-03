@@ -1,5 +1,6 @@
 var express = require('express')
 const aboutRoute = require('./about.router')
+const foodmenuRoute = require('./foodmenu.router')
 const blogRoute = require('./blog.router')
 const productRoute = require('./product.router')
 var apiResponse = require('../helpers/apiResponse')
@@ -7,6 +8,7 @@ var apiResponse = require('../helpers/apiResponse')
 var app = express()
 
 app.use('/about/', aboutRoute)
+app.use('/foodmenu/', foodmenuRoute)
 app.use('/blog/', blogRoute)
 app.use('/product/', productRoute)
 
