@@ -1,15 +1,15 @@
-const Blog = require('../models/blog.model')
+const Contact = require('../models/contact.model')
 const { body, validationResult } = require('express-validator')
 const { sanitizeBody } = require('express-validator')
 var mongoose = require('mongoose')
 
 var apiResponse = require('../helpers/apiResponse')
 
-// Blog Schema
-function BlogData(data) {
+// Contact Schema
+function ContactData(data) {
   this.id = data._id
-  this.titleTH = data.titleTH
-  this.titleEN = data.titleEN
+  this.adressTH = data.adressTH
+  this.adressEN = data.adressEN
   this.scriptTH = data.scriptTH
   this.scriptEN = data.scriptEN
   this.detailTH = data.detailTH
@@ -21,33 +21,33 @@ function BlogData(data) {
   this.updatedAt = data.updatedAt
 }
 
-exports.blogList = [
+exports.contactList = [
   async (req, res) => {
     try {
-      const blogs = await Blog.find({})
+      const contacts = await Contact.find({})
       return apiResponse.successResponseWithData(
         res,
         'Operation success',
-        blogs
+        contacts
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.blogDetail = [
+exports.contactDetail = [
   async (req, res) => {
     const { id } = req.params
 
     try {
-      const blog = await Blog.findById(id)
+      const contact = await Contact.findById(id)
 
-      if (blog !== null) {
-        let blogData = new BlogData(blog)
+      if (contact !== null) {
+        let contactData = new ContactData(contact)
         return apiResponse.successResponseWithData(
           res,
           'Operation success',
-          blogData
+          contactData
         )
       } else {
         return apiResponse.successResponseWithData(res, 'Operation success', {})
@@ -57,7 +57,7 @@ exports.blogDetail = [
     }
   }
 ]
-exports.blogStore = [
+exports.contactStore = [
   body('titleTH', 'titleTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -89,7 +89,7 @@ exports.blogStore = [
   async (req, res) => {
     const payload = req.body
     try {
-      // VALIDATION BLOG
+      // VALIDATION CONTACT
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
         return apiResponse.validationErrorWithData(
@@ -99,8 +99,8 @@ exports.blogStore = [
         )
       }
 
-      // NEW BLOG
-      const blog = new Blog({
+      // NEW CONTACT
+      const contact = new Contact({
         titleTH: payload.titleTH,
         titleEN: payload.titleEN,
         scriptTH: payload.scriptTH,
@@ -112,20 +112,20 @@ exports.blogStore = [
         updatedBy: payload.updatedBy
       })
 
-      // SAVE BLOG
-      await blog.save()
-      let blogData = new BlogData(blog)
+      // SAVE CONTACT
+      await contact.save()
+      let contactData = new ContactData(contact)
       return apiResponse.successResponseWithData(
         res,
-        'Blog add Success.',
-        blogData
+        'Contact add Success.',
+        contactData
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.blogUpdate = [
+exports.contactUpdate = [
   body('titleTH', 'titleTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -159,7 +159,7 @@ exports.blogUpdate = [
     const { id } = req.params
 
     try {
-      const blog = new Blog({
+      const contact = new Contact({
         titleTH: payload.titleTH,
         titleEN: payload.titleEN,
         scriptTH: payload.scriptTH,
@@ -180,21 +180,24 @@ exports.blogUpdate = [
         )
       }
 
-      const checkBlog = await Blog.findById(id)
-      if (checkBlog === null) {
-        return apiResponse.notFoundResponse(res, 'Blog not exists with this id')
+      const checkContact = await Contact.findById(id)
+      if (checkContact === null) {
+        return apiResponse.notFoundResponse(
+          res,
+          'Contact not exists with this id'
+        )
       }
 
-      const updateBlog = await Blog.findByIdAndUpdate(id, {
-        $set: blog
+      const updateContact = await Contact.findByIdAndUpdate(id, {
+        $set: contact
       })
 
-      if (updateBlog) {
-        let blogData = new BlogData(await Blog.findById(id))
+      if (updateContact) {
+        let contactData = new ContactData(await Contact.findById(id))
         return apiResponse.successResponseWithData(
           res,
-          'Blog update Success.',
-          blogData
+          'Contact update Success.',
+          contactData
         )
       } else {
         return apiResponse.validationErrorWithData(
@@ -209,7 +212,7 @@ exports.blogUpdate = [
   }
 ]
 
-exports.blogDelete = [
+exports.contactDelete = [
   async (req, res) => {
     const { id } = req.params
 
@@ -222,14 +225,17 @@ exports.blogDelete = [
         )
       }
 
-      const checkBlog = await Blog.findById(id)
-      if (checkBlog === null) {
-        return apiResponse.notFoundResponse(res, 'Blog not exists with this id')
+      const checkContact = await Contact.findById(id)
+      if (checkContact === null) {
+        return apiResponse.notFoundResponse(
+          res,
+          'Contact not exists with this id'
+        )
       }
 
-      await Blog.findByIdAndDelete(id)
+      await Contact.findByIdAndDelete(id)
 
-      return apiResponse.successResponse(res, `Blog delete Success.`)
+      return apiResponse.successResponse(res, `Contact delete Success.`)
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }

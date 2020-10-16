@@ -5,6 +5,8 @@ const aboutSchema = new Schema(
   {
     titleTH: String,
     titleEN: String,
+    scriptTH: String,
+    scriptEN: String,
     detailTH: String,
     detailEN: String,
     statusFlag: String,

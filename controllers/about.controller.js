@@ -10,6 +10,8 @@ function AboutData(data) {
   this.id = data._id
   this.titleTH = data.titleTH
   this.titleEN = data.titleEN
+  this.scriptTH = data.scriptTH
+  this.scriptEN = data.scriptEN
   this.detailTH = data.detailTH
   this.detailEN = data.detailEN
   this.statusFlag = data.statusFlag
@@ -62,6 +64,12 @@ exports.aboutStore = [
   body('titleEN', 'titleEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
+  body('scriptTH', 'scriptTH must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('scriptEN', 'scriptEN must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
   body('detailTH', 'detailTH must not be empty.')
     .isLength({ min: 1 })
     .trim(),
@@ -95,6 +103,8 @@ exports.aboutStore = [
       const about = new About({
         titleTH: payload.titleTH,
         titleEN: payload.titleEN,
+        scriptTH: payload.scriptTH,
+        scriptEN: payload.scriptEN,
         detailTH: payload.detailTH,
         detailEN: payload.detailEN,
         statusFlag: payload.statusFlag,
@@ -122,6 +132,12 @@ exports.aboutUpdate = [
   body('titleEN', 'titleEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
+  body('scriptTH', 'scriptTH must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('scriptEN', 'scriptEN must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
   body('detailTH', 'detailTH must not be empty.')
     .isLength({ min: 1 })
     .trim(),
@@ -146,6 +162,8 @@ exports.aboutUpdate = [
       const about = new About({
         titleTH: payload.titleTH,
         titleEN: payload.titleEN,
+        scriptTH: payload.scriptTH,
+        scriptEN: payload.scriptEN,
         detailTH: payload.detailTH,
         detailEN: payload.detailEN,
         statusFlag: payload.statusFlag,
