@@ -7,13 +7,19 @@ var apiResponse = require('../helpers/apiResponse')
 
 // Contact Schema
 function ContactData(data) {
-  this.id = data._id
   this.adressTH = data.adressTH
   this.adressEN = data.adressEN
-  this.scriptTH = data.scriptTH
-  this.scriptEN = data.scriptEN
-  this.detailTH = data.detailTH
-  this.detailEN = data.detailEN
+  this.roadTH = data.roadTH
+  this.roadEN = data.roadEN
+  this.subdistrictTH = data.subdistrictTH
+  this.subdistrictEN = data.subdistrictEN
+  this.districtTH = data.districtTH
+  this.districtEN = data.districtEN
+  this.provinceTH = data.provinceTH
+  this.provinceEN = data.provinceEN
+  this.post = data.post
+  this.email = data.email
+  this.tel = data.tel
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -58,22 +64,43 @@ exports.contactDetail = [
   }
 ]
 exports.contactStore = [
-  body('titleTH', 'titleTH must not be empty.')
+  body('adressTH', 'adressTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('titleEN', 'titleEN must not be empty.')
+  body('adressEN', 'adressEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptTH', 'scriptTH must not be empty.')
+  body('roadTH', 'roadTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptEN', 'scriptEN must not be empty.')
+  body('roadEN', 'roadEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('detailTH', 'detailTH must not be empty.')
+  body('subdistrictTH', 'subdistrictTH must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('subdistrictEN', 'subdistrictEN must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('districtTH', 'districtTH must not be empty.')
     .isLength({ min: 1 })
     .trim(),
-  body('detailEN', 'detailEN must not be empty.')
+  body('districtEN', 'districtEN must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('provinceTH', 'provinceTH must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('provinceEN', 'provinceEN must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('post', 'post must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('email', 'email must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('tel', 'tel must not be empty.')
     .isLength({ min: 1 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
@@ -101,12 +128,19 @@ exports.contactStore = [
 
       // NEW CONTACT
       const contact = new Contact({
-        titleTH: payload.titleTH,
-        titleEN: payload.titleEN,
-        scriptTH: payload.scriptTH,
-        scriptEN: payload.scriptEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+        adressTH: payload.titleTH,
+        adressEN: payload.titleEN,
+        roadTH: payload.scriptTH,
+        roadEN: payload.scriptEN,
+        subdistrictTH: payload.detailTH,
+        subdistrictEN: payload.detailEN,
+        districtTH: payload.districtTH,
+        districtEN: payload.districtEN,
+        provinceTH: payload.provinceTH,
+        provinceEN: payload.provinceEN,
+        post: payload.post,
+        email: payload.email,
+        tel: payload.tel,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
@@ -126,22 +160,43 @@ exports.contactStore = [
   }
 ]
 exports.contactUpdate = [
-  body('titleTH', 'titleTH must not be empty.')
+  body('adressTH', 'adressTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('titleEN', 'titleEN must not be empty.')
+  body('adressEN', 'adressEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptTH', 'scriptTH must not be empty.')
+  body('roadTH', 'roadTH must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptEN', 'scriptEN must not be empty.')
+  body('roadEN', 'roadEN must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('detailTH', 'detailTH must not be empty.')
+  body('subdistrictTH', 'subdistrictTH must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('subdistrictEN', 'subdistrictEN must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('districtTH', 'districtTH must not be empty.')
     .isLength({ min: 1 })
     .trim(),
-  body('detailEN', 'detailEN must not be empty.')
+  body('districtEN', 'districtEN must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('provinceTH', 'provinceTH must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('provinceEN', 'provinceEN must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('post', 'post must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('email', 'email must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  body('tel', 'tel must not be empty.')
     .isLength({ min: 1 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
@@ -160,12 +215,19 @@ exports.contactUpdate = [
 
     try {
       const contact = new Contact({
-        titleTH: payload.titleTH,
-        titleEN: payload.titleEN,
-        scriptTH: payload.scriptTH,
-        scriptEN: payload.scriptEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+        adressTH: payload.titleTH,
+        adressEN: payload.titleEN,
+        roadTH: payload.scriptTH,
+        roadEN: payload.scriptEN,
+        subdistrictTH: payload.detailTH,
+        subdistrictEN: payload.detailEN,
+        districtTH: payload.districtTH,
+        districtEN: payload.districtEN,
+        provinceTH: payload.provinceTH,
+        provinceEN: payload.provinceEN,
+        post: payload.post,
+        email: payload.email,
+        tel: payload.tel,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,

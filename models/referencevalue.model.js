@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 const referenceValueSchema = new Schema(
   {
-    titleTH: String,
-    titleEN: String,
+    nameTH: String,
+    nameEN: String,
     code: String,
     statusFlag: String,
     createdBy: String,
