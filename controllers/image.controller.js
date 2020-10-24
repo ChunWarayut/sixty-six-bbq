@@ -8,9 +8,10 @@ var apiResponse = require('../helpers/apiResponse')
 // Image Schema
 function ImageData(data) {
   this.id = data._id
-  this.referee_code = data.referee_code
-  this.referee_type = data.referee_type
-  this.name_img = data.name_img
+  this.referenceID = data.referenceID
+  this.referenceType = data.referenceType
+  this.name = data.name
+  this.level = data.level
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -55,14 +56,20 @@ exports.imageDetail = [
   }
 ]
 exports.imageStore = [
-  body('referee_code', 'referee_code must not be empty.')
+  body('referenceID', 'referenceID must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('referee_type', 'referee_type must not be empty.')
+  body('referenceType', 'referenceType must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('name_img', 'name_img must not be empty.')
-    .isLength({ min: 1 })
+  body('name', 'name must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('level', 'level must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('statusFlag', 'statusFlag must be 1 length.')
+    .isLength({ min: 1, max: 1 })
     .trim(),
   body('createdBy', 'createdBy must be 24 length.')
     .isLength({ min: 24, max: 24 })
@@ -86,9 +93,10 @@ exports.imageStore = [
 
       // NEW IMAGE
       const image = new Image({
-        referee_code: payload.referee_code,
-        referee_type: payload.referee_type,
-        name_img: payload.name_img,
+        referenceID: payload.referenceID,
+        referenceType: payload.referenceType,
+        name: payload.name,
+        level: payload.level,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
@@ -108,14 +116,20 @@ exports.imageStore = [
   }
 ]
 exports.imageUpdate = [
-  body('referee_code', 'referee_code must not be empty.')
+  body('referenceID', 'referenceID must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('referee_type', 'referee_type must not be empty.')
+  body('referenceType', 'referenceType must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('name_img', 'name_img must not be empty.')
+  body('name', 'name must not be empty.')
     .isLength({ min: 1 })
+    .trim(),
+  body('level', 'level must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('statusFlag', 'statusFlag must be 1 length.')
+    .isLength({ min: 1, max: 1 })
     .trim(),
   body('createdBy', 'createdBy must be 24 length.')
     .isLength({ min: 24, max: 24 })
@@ -130,9 +144,9 @@ exports.imageUpdate = [
 
     try {
       const image = new Image({
-        referee_code: payload.referee_code,
-        referee_type: payload.referee_type,
-        name_img: payload.name_img,
+        referenceID: payload.referenceID,
+        referenceType: payload.referenceType,
+        name: payload.name,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,

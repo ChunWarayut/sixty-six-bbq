@@ -128,10 +128,10 @@ exports.contactStore = [
 
       // NEW CONTACT
       const contact = new Contact({
-        adressTH: payload.titleTH,
-        adressEN: payload.titleEN,
-        roadTH: payload.scriptTH,
-        roadEN: payload.scriptEN,
+        adressTH: payload.adressTH,
+        adressEN: payload.adressEN,
+        roadTH: payload.roadTH,
+        roadEN: payload.roadEN,
         subdistrictTH: payload.detailTH,
         subdistrictEN: payload.detailEN,
         districtTH: payload.districtTH,
@@ -179,25 +179,25 @@ exports.contactUpdate = [
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('districtTH', 'districtTH must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('districtEN', 'districtEN must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('provinceTH', 'provinceTH must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('provinceEN', 'provinceEN must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('post', 'post must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('email', 'email must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('tel', 'tel must not be empty.')
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
@@ -215,12 +215,12 @@ exports.contactUpdate = [
 
     try {
       const contact = new Contact({
-        adressTH: payload.titleTH,
-        adressEN: payload.titleEN,
-        roadTH: payload.scriptTH,
-        roadEN: payload.scriptEN,
-        subdistrictTH: payload.detailTH,
-        subdistrictEN: payload.detailEN,
+        adressTH: payload.adressTH,
+        adressEN: payload.adressEN,
+        roadTH: payload.roadTH,
+        roadEN: payload.roadEN,
+        subdistrictTH: payload.subdistrictTH,
+        subdistrictEN: payload.subdistrictEN,
         districtTH: payload.districtTH,
         districtEN: payload.districtEN,
         provinceTH: payload.provinceTH,
