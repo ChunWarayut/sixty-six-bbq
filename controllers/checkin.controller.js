@@ -1,22 +1,20 @@
-const FoodMenu = require('../models/foodmenu.model')
+const CheckIn = require('../models/checkin.model')
 const { body, validationResult } = require('express-validator')
 const { sanitizeBody } = require('express-validator')
 var mongoose = require('mongoose')
 
 var apiResponse = require('../helpers/apiResponse')
 
-// FoodMenu Schema
-function FoodMenuData(data) {
+// CheckIn Schema
+function CheckInData(data) {
   this.id = data._id
-  this.type = data.type
-  this.nameTH = data.nameTH
-  this.nameEN = data.nameEN
-  this.image = data.image
-  this.price = data.price
-  this.scriptTH = data.scriptTH
-  this.scriptEN = data.scriptEN
-  this.detailTH = data.detailTH
-  this.detailEN = data.detailEN
+  this.workTime = data.workTime
+  this.userId = data.userId
+  this.checkIn = data.checkIn
+  this.imageIn = data.imageIn
+  this.checkOut = data.checkOut
+  this.imageOut = data.imageOut
+  this.location = data.location
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -24,33 +22,33 @@ function FoodMenuData(data) {
   this.updatedAt = data.updatedAt
 }
 
-exports.foodmenuList = [
+exports.checkinList = [
   async (req, res) => {
     try {
-      const foodmenus = await FoodMenu.find({})
+      const checkins = await CheckIn.find({})
       return apiResponse.successResponseWithData(
         res,
         'Operation success',
-        foodmenus
+        checkins
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.foodmenuDetail = [
+exports.checkinDetail = [
   async (req, res) => {
     const { id } = req.params
 
     try {
-      const foodmenu = await FoodMenu.findById(id)
+      const checkin = await CheckIn.findById(id)
 
-      if (foodmenu !== null) {
-        let foodmenuData = new FoodMenuData(foodmenu)
+      if (checkin !== null) {
+        let checkinData = new CheckInData(checkin)
         return apiResponse.successResponseWithData(
           res,
           'Operation success',
-          foodmenuData
+          checkinData
         )
       } else {
         return apiResponse.successResponseWithData(res, 'Operation success', {})
@@ -60,33 +58,27 @@ exports.foodmenuDetail = [
     }
   }
 ]
-exports.foodmenuStore = [
-  body('nameTH', 'nameTH must not be empty.')
+exports.checkinStore = [
+  body('workTime', 'workTime must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('nameEN', 'nameEN must not be empty.')
+  body('userId', 'userId must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('image', 'image must not be empty.')
+  body('checkIn', 'checkIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('type', 'type must not be empty.')
+  body('imageIn', 'imageIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('price', 'price must not be empty.')
+  body('checkOut', 'checkOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptTH', 'scriptTH must not be empty.')
+  body('imageOut', 'imageOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptEN', 'scriptEN must not be empty.')
+  body('location', 'location must not be empty.')
     .isLength({ min: 1, max: 200 })
-    .trim(),
-  body('detailTH', 'detailTH must not be empty.')
-    .isLength({ min: 1 })
-    .trim(),
-  body('detailEN', 'detailEN must not be empty.')
-    .isLength({ min: 1 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
@@ -101,7 +93,7 @@ exports.foodmenuStore = [
   async (req, res) => {
     const payload = req.body
     try {
-      // VALIDATION FOODMENU
+      // VALIDATION CHECKIN
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
         return apiResponse.validationErrorWithData(
@@ -111,62 +103,54 @@ exports.foodmenuStore = [
         )
       }
 
-      // NEW FOODMENU
-      const foodmenu = new FoodMenu({
-        nameTH: payload.nameTH,
-        nameEN: payload.nameEN,
-        image: payload.image,
-        type: payload.type,
-        price: payload.price,
-        scriptTH: payload.scriptTH,
-        scriptEN: payload.scriptEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+      // NEW CHECKIN
+      const checkin = new CheckIn({
+        workTime: payload.workTime,
+        userId: payload.userId,
+        checkIn: payload.checkIn,
+        imageIn: payload.imageIn,
+        checkOut: payload.checkOut,
+        imageOut: payload.imageOut,
+        location: payload.location,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
       })
 
-      // SAVE FOODMENU
-      await foodmenu.save()
-      let foodmenuData = new FoodMenuData(foodmenu)
+      // SAVE CHECKIN
+      await checkin.save()
+      let checkinData = new CheckInData(checkin)
       return apiResponse.successResponseWithData(
         res,
-        'FoodMenu add Success.',
-        foodmenuData
+        'CheckIn add Success.',
+        checkinData
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.foodmenuUpdate = [
-  body('nameTH', 'nameTH must not be empty.')
+exports.checkinUpdate = [
+  body('workTime', 'workTime must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('nameEN', 'nameEN must not be empty.')
+  body('userId', 'userId must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('image', 'image must not be empty.')
+  body('checkIn', 'checkIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('type', 'type must not be empty.')
+  body('imageIn', 'imageIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('price', 'price must not be empty.')
+  body('checkOut', 'checkOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptTH', 'scriptTH must not be empty.')
+  body('imageOut', 'imageOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('scriptEN', 'scriptEN must not be empty.')
+  body('location', 'location must not be empty.')
     .isLength({ min: 1, max: 200 })
-    .trim(),
-  body('detailTH', 'detailTH must not be empty.')
-    .isLength({ min: 1 })
-    .trim(),
-  body('detailEN', 'detailEN must not be empty.')
-    .isLength({ min: 1 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
@@ -183,16 +167,14 @@ exports.foodmenuUpdate = [
     const { id } = req.params
 
     try {
-      const foodmenu = new FoodMenu({
-        nameTH: payload.nameTH,
-        nameEN: payload.nameEN,
-        image: payload.image,
-        type: payload.type,
-        price: payload.price,
-        scriptTH: payload.scriptTH,
-        scriptEN: payload.scriptEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+      const checkin = new CheckIn({
+        workTime: payload.workTime,
+        userId: payload.userId,
+        checkIn: payload.checkIn,
+        imageIn: payload.imageIn,
+        checkOut: payload.checkOut,
+        imageOut: payload.imageOut,
+        location: payload.location,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,
@@ -207,24 +189,24 @@ exports.foodmenuUpdate = [
         )
       }
 
-      const checkFoodMenu = await FoodMenu.findById(id)
-      if (checkFoodMenu === null) {
+      const checkCheckIn = await CheckIn.findById(id)
+      if (checkCheckIn === null) {
         return apiResponse.notFoundResponse(
           res,
-          'FoodMenu not exists with this id'
+          'CheckIn not exists with this id'
         )
       }
 
-      const updateFoodMenu = await FoodMenu.findByIdAndUpdate(id, {
-        $set: foodmenu
+      const updateCheckIn = await CheckIn.findByIdAndUpdate(id, {
+        $set: checkin
       })
 
-      if (updateFoodMenu) {
-        let foodmenuData = new FoodMenuData(await FoodMenu.findById(id))
+      if (updateCheckIn) {
+        let checkinData = new CheckInData(await CheckIn.findById(id))
         return apiResponse.successResponseWithData(
           res,
-          'FoodMenu update Success.',
-          foodmenuData
+          'CheckIn update Success.',
+          checkinData
         )
       } else {
         return apiResponse.validationErrorWithData(
@@ -239,7 +221,7 @@ exports.foodmenuUpdate = [
   }
 ]
 
-exports.foodmenuDelete = [
+exports.checkinDelete = [
   async (req, res) => {
     const { id } = req.params
 
@@ -252,17 +234,17 @@ exports.foodmenuDelete = [
         )
       }
 
-      const checkFoodMenu = await FoodMenu.findById(id)
-      if (checkFoodMenu === null) {
+      const checkCheckIn = await CheckIn.findById(id)
+      if (checkCheckIn === null) {
         return apiResponse.notFoundResponse(
           res,
-          'FoodMenu not exists with this id'
+          'CheckIn not exists with this id'
         )
       }
 
-      await FoodMenu.findByIdAndDelete(id)
+      await CheckIn.findByIdAndDelete(id)
 
-      return apiResponse.successResponse(res, `FoodMenu delete Success.`)
+      return apiResponse.successResponse(res, `CheckIn delete Success.`)
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
