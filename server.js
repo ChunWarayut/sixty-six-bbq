@@ -6,7 +6,7 @@ var cors = require('cors')
 
 const MONGODB_URI =
   process.env.MONGODB_URI ||
-  'mongodb+srv://chunwarayut:g6AivOvYDMChDtpZ@cluster0.qitui.gcp.mongodb.net/sixty-six-bbq?retryWrites=true&w=majority'
+  'mongodb://worktodayuser_dev:q3492Rsv@206.189.88.25/WorkToDayDEV'
 const PORT = process.env.PORT || 9000
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
