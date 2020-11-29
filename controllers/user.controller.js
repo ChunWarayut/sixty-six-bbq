@@ -10,22 +10,10 @@ function UserData(data) {
   this.id = data._id
   this.username = data.username
   this.password = data.password
-  this.firstname = data.firstname
-  this.lastname = data.lastname
-  this.adress_th = data.lastname
-  this.adress_en = data.lastname
-  this.road_th = data.lastname
-  this.road_en = data.lastname
-  this.subdistrict_th = data.lastname
-  this.subdistrict_en = data.lastname
-  this.district_th = data.lastname
-  this.district_en = data.lastname
-  this.province_th = data.lastname
-  this.province_en = data.province_en
-  this.post = data.lastname
-  this.email = data.email
-  this.tel = data.tel
   this.status = data.status
+  this.name = data.name
+  this.linename = data.linename
+  this.image = data.image
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -76,52 +64,19 @@ exports.userStore = [
   body('password', 'password must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('firstname', 'firstname must not be empty.')
-    .isLength({ min: 1 })
+  body('status', 'status must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('lastname', 'lastname must not be empty.')
-    .isLength({ min: 1 })
+  body('name', 'name must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('adress_th', 'adress_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
+  body('linename', 'linename must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('adress_en', 'adress_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
+  body('image', 'image must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('road_th', 'road_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('road_en', 'road_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('subdistrict_th', 'subdistrict_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('subdistrict_en', 'subdistrict_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('district_th', 'district_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('district_en', 'district_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('province_th', 'province_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('province_en', 'province_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('post', 'post must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('email', 'email must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('tel', 'tel must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('status', 'status must be 1 length.')
+  body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
     .trim(),
   body('createdBy', 'createdBy must be 24 length.')
@@ -148,21 +103,10 @@ exports.userStore = [
       const user = new User({
         username: payload.username,
         password: payload.password,
-        firstname: payload.firstname,
-        lastname: payload.lastname,
-        adress_th: payload.adress_th,
-        adress_en: payload.adress_en,
-        road_th: payload.road_th,
-        road_en: payload.road_en,
-        subdistrict_th: payload.subdistrict_th,
-        subdistrict_en: payload.subdistrict_en,
-        district_th: payload.district_th,
-        district_en: payload.district_en,
-        province_th: payload.province_th,
-        province_en: payload.province_en,
-        email: payload.email,
-        tel: payload.tel,
         status: payload.status,
+        name: payload.name,
+        linename: payload.linename,
+        image: payload.image,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
@@ -188,52 +132,19 @@ exports.userUpdate = [
   body('password', 'password must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('firstname', 'firstname must not be empty.')
-    .isLength({ min: 1 })
+  body('status', 'status must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('lastname', 'lastname must not be empty.')
-    .isLength({ min: 1 })
+  body('name', 'name must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('adress_th', 'adress_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
+  body('linename', 'linename must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('adress_en', 'adress_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
+  body('image', 'image must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
-  body('road_th', 'road_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('road_en', 'road_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('subdistrict_th', 'subdistrict_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('subdistrict_en', 'subdistrict_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('district_th', 'district_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('district_en', 'district_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('province_th', 'province_th must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('province_en', 'province_en must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('post', 'post must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('email', 'email must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('tel', 'tel must be 1 length.')
-    .isLength({ min: 1, max: 1 })
-    .trim(),
-  body('status', 'status must be 1 length.')
+  body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
     .trim(),
   body('createdBy', 'createdBy must be 24 length.')
@@ -251,21 +162,10 @@ exports.userUpdate = [
       const user = new User({
         username: payload.username,
         password: payload.password,
-        firstname: payload.firstname,
-        lastname: payload.lastname,
-        adress_th: payload.adress_th,
-        adress_en: payload.adress_en,
-        road_th: payload.road_th,
-        road_en: payload.road_en,
-        subdistrict_th: payload.subdistrict_th,
-        subdistrict_en: payload.subdistrict_en,
-        district_th: payload.district_th,
-        district_en: payload.district_en,
-        province_th: payload.province_th,
-        province_en: payload.province_en,
-        email: payload.email,
-        tel: payload.tel,
         status: payload.status,
+        name: payload.name,
+        linename: payload.linename,
+        image: payload.image,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,
@@ -282,7 +182,10 @@ exports.userUpdate = [
 
       const checkUser = await User.findById(id)
       if (checkUser === null) {
-        return apiResponse.notFoundResponse(res, 'User not exists with this id')
+        return apiResponse.notFoundResponse(
+          res,
+          'User not exists with this id'
+        )
       }
 
       const updateUser = await User.findByIdAndUpdate(id, {
@@ -324,7 +227,10 @@ exports.userDelete = [
 
       const checkUser = await User.findById(id)
       if (checkUser === null) {
-        return apiResponse.notFoundResponse(res, 'User not exists with this id')
+        return apiResponse.notFoundResponse(
+          res,
+          'User not exists with this id'
+        )
       }
 
       await User.findByIdAndDelete(id)
