@@ -9,6 +9,7 @@ const userSchema = new Schema(
     name: String,
     linename: String,
     image: String,
+    team: String,
     statusFlag: String,
     createdBy: String,
     updatedBy: String

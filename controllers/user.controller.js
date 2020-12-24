@@ -14,6 +14,7 @@ function UserData(data) {
   this.name = data.name
   this.linename = data.linename
   this.image = data.image
+  this.team = data.team
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -73,7 +74,7 @@ exports.userStore = [
   body('linename', 'linename must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('image', 'image must not be empty.')
+  body('team', 'team must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
@@ -107,6 +108,7 @@ exports.userStore = [
         name: payload.name,
         linename: payload.linename,
         image: payload.image,
+        team: payload.team,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
@@ -144,6 +146,9 @@ exports.userUpdate = [
   body('image', 'image must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
+  body('team', 'team must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
     .trim(),
@@ -166,6 +171,7 @@ exports.userUpdate = [
         name: payload.name,
         linename: payload.linename,
         image: payload.image,
+        team: payload.team,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,
