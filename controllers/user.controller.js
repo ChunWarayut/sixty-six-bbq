@@ -2,6 +2,7 @@ const User = require('../models/user.model')
 const { body, validationResult } = require('express-validator')
 const { sanitizeBody } = require('express-validator')
 var mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 var apiResponse = require('../helpers/apiResponse')
 
@@ -9,28 +10,88 @@ var apiResponse = require('../helpers/apiResponse')
 function UserData(data) {
   this.id = data._id
   this.username = data.username
-  this.password = data.password
   this.status = data.status
   this.name = data.name
   this.linename = data.linename
   this.image = data.image
   this.team = data.team
-  this.statusFlag = data.statusFlag
-  this.createdBy = data.createdBy
-  this.createdAt = data.createdAt
-  this.updatedBy = data.updatedBy
-  this.updatedAt = data.updatedAt
+}
+function UserDataLogin(data) {
+  this.id = data._id
+  this.username = data.username
+  this.status = data.status
+  this.name = data.name
+  this.linename = data.linename
+  this.image = data.image
+  this.team = data.team
 }
 
 exports.userList = [
   async (req, res) => {
     try {
       const users = await User.find({})
+      const userData = users.map(e => {
+        return new UserData(e)
+      })
+
       return apiResponse.successResponseWithData(
         res,
         'Operation success',
-        users
+        userData
       )
+    } catch (error) {
+      return apiResponse.ErrorResponse(res, error)
+    }
+  }
+]
+exports.userLogin = [
+  body('username', 'username must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('password', 'password must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  sanitizeBody('*').escape(),
+  async (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    const statusFlag = 'A'
+    try {
+      // VALIDATION USER
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Validation Error.',
+          errors.array()
+        )
+      }
+      if (username && password) {
+        const user = await User.findOne({
+          username,
+          statusFlag
+        })
+
+        if (user !== null) {
+          const checkPassword = await bcrypt.compare(password, user.password)
+          if (!checkPassword) {
+            return apiResponse.unauthorizedResponse(
+              res,
+              'Authentication failed'
+            )
+          }
+          let userData = new UserDataLogin(user)
+          return apiResponse.successResponseWithData(
+            res,
+            'Operation success',
+            userData
+          )
+        } else {
+          return apiResponse.unauthorizedResponse(res, 'Authentication failed')
+        }
+      } else {
+        return apiResponse.ErrorResponse(res, 'Authentication failed')
+      }
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
@@ -74,6 +135,9 @@ exports.userStore = [
   body('linename', 'linename must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
+  body('image', 'image must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
   body('team', 'team must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -100,10 +164,17 @@ exports.userStore = [
         )
       }
 
+      const checkUser = await User.findOne({
+        username: payload.username,
+        statusFlag: payload.statusFlag
+      })
+      if (checkUser) {
+        return apiResponse.ErrorResponse(res, 'User exists with this id')
+      }
       // NEW USER
       const user = new User({
         username: payload.username,
-        password: payload.password,
+        password: await bcrypt.hash(payload.password, 10),
         status: payload.status,
         name: payload.name,
         linename: payload.linename,
@@ -164,9 +235,27 @@ exports.userUpdate = [
     const { id } = req.params
 
     try {
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Validation Error.',
+          errors.array()
+        )
+      }
+
+      const checkUserNotEqual = await User.findOne({
+        _id: { $ne: id },
+        username: payload.username,
+        statusFlag: payload.statusFlag
+      })
+      if (checkUserNotEqual) {
+        return apiResponse.ErrorResponse(res, 'User exists with this id')
+      }
+
       const user = new User({
         username: payload.username,
-        password: payload.password,
+        password: await bcrypt.hash(payload.password, 10),
         status: payload.status,
         name: payload.name,
         linename: payload.linename,
@@ -188,10 +277,7 @@ exports.userUpdate = [
 
       const checkUser = await User.findById(id)
       if (checkUser === null) {
-        return apiResponse.notFoundResponse(
-          res,
-          'User not exists with this id'
-        )
+        return apiResponse.notFoundResponse(res, 'User not exists with this id')
       }
 
       const updateUser = await User.findByIdAndUpdate(id, {
@@ -233,10 +319,7 @@ exports.userDelete = [
 
       const checkUser = await User.findById(id)
       if (checkUser === null) {
-        return apiResponse.notFoundResponse(
-          res,
-          'User not exists with this id'
-        )
+        return apiResponse.notFoundResponse(res, 'User not exists with this id')
       }
 
       await User.findByIdAndDelete(id)
