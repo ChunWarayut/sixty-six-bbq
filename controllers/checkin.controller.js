@@ -166,9 +166,7 @@ exports.checkinStore = [
               : 'CHECK OUT'
           }`
 
-          console.log(message);
           try {
-
             var data = new FormData()
             data.append(
               'imageFile',
@@ -186,10 +184,10 @@ exports.checkinStore = [
               },
               data: data
             }
-            const lineNotify = await axios(config)
-            console.log(lineNotify.data)
+            await axios(config)
+            
           } catch (error) {
-            console.log('error')
+            
             return apiResponse.ErrorResponse(res, error)
           }
 
@@ -213,56 +211,52 @@ exports.checkinStore = [
             })
             await checkin.save()
           } else {
-                   let getCheckin = new CheckInData(checkinData)
-                   isLate = getCheckin.isLate
-                   checkIn = getCheckin.checkIn
-                   imageIn = getCheckin.imageIn
-                   imageOut = imageName
-                   checkOut = timeClock.format()
+            let getCheckin = new CheckInData(checkinData)
+            isLate = getCheckin.isLate
+            checkIn = getCheckin.checkIn
+            imageIn = getCheckin.imageIn
+            imageOut = imageName
+            checkOut = timeClock.format()
 
-                   // NEW CHECKIN
-                   checkin = new CheckIn({
-                     userId: payload.userId,
-                     checkIn,
-                     imageIn,
-                     checkOut,
-                     imageOut,
-                     location: payload.location,
-                     isLate,
-                     statusFlag,
-                     createdBy,
-                     updatedBy,
-                     _id: getCheckin.id
-                   })
-                   const updateCheckIn = await CheckIn.findByIdAndUpdate(
-                 
+            // NEW CHECKIN
+            checkin = new CheckIn({
+              userId: payload.userId,
+              checkIn,
+              imageIn,
+              checkOut,
+              imageOut,
+              location: payload.location,
+              isLate,
+              statusFlag,
+              createdBy,
+              updatedBy,
+              _id: getCheckin.id
+            })
+            const updateCheckIn = await CheckIn.findByIdAndUpdate(
               getCheckin.id,
-              
-                {
-                         $set: checkin
-                       }
-               
+
+              {
+                $set: checkin
+              }
             )
 
-                   if (updateCheckIn) {
-                     let userData = new CheckInData(
-                   
+            if (updateCheckIn) {
+              let userData = new CheckInData(
                 await CheckIn.findById(getCheckin.id)
-                 
               )
-                     return apiResponse.successResponseWithData(
-                       res,
-                       'Check In update Success.',
-                       userData
-                     )
-                   } else {
-                            return apiResponse.validationErrorWithData(
-                              res,
-                              'Invalid Error.',
-                              'Invalid ID'
-                            )
-                          }
-                 }
+              return apiResponse.successResponseWithData(
+                res,
+                'Check In update Success.',
+                userData
+              )
+            } else {
+              return apiResponse.validationErrorWithData(
+                res,
+                'Invalid Error.',
+                'Invalid ID'
+              )
+            }
+          }
 
           // // SAVE CHECKIN
           let checkinRes = new CheckInData(checkin)
