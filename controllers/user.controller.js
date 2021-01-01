@@ -10,11 +10,18 @@ var apiResponse = require('../helpers/apiResponse')
 function UserData(data) {
   this.id = data._id
   this.username = data.username
+  this.password = data.password
   this.status = data.status
   this.name = data.name
   this.linename = data.linename
   this.image = data.image
   this.team = data.team
+  this.workShiftID = data.workShiftID
+  this.statusFlag = data.statusFlag
+  this.createdBy = data.createdBy
+  this.createdAt = data.createdAt
+  this.updatedBy = data.updatedBy
+  this.updatedAt = data.updatedAt
 }
 function UserDataLogin(data) {
   this.id = data._id
@@ -24,6 +31,7 @@ function UserDataLogin(data) {
   this.linename = data.linename
   this.image = data.image
   this.team = data.team
+  this.workShiftID = data.workShiftID
 }
 
 exports.userList = [
@@ -141,6 +149,9 @@ exports.userStore = [
   body('team', 'team must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
+  body('workShiftID', 'work shift must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
     .trim(),
@@ -180,6 +191,7 @@ exports.userStore = [
         linename: payload.linename,
         image: payload.image,
         team: payload.team,
+        workShiftID: payload.workShiftID,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
@@ -218,6 +230,9 @@ exports.userUpdate = [
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('team', 'team must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  body('workShiftID', 'work shift must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
@@ -261,6 +276,7 @@ exports.userUpdate = [
         linename: payload.linename,
         image: payload.image,
         team: payload.team,
+        workShiftID: payload.workShiftID,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,

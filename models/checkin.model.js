@@ -3,13 +3,13 @@ const Schema = mongoose.Schema
 
 const checkinSchema = new Schema(
   {
-    workTime: String,
     userId: String,
     checkIn: String,
     imageIn: String,
     checkOut: String,
     imageOut: String,
     location: String,
+    isLate: Boolean,
     statusFlag: String,
     createdBy: String,
     updatedBy: String
