@@ -160,7 +160,11 @@ exports.checkinStore = [
           streamObj.push(null)
           streamObj.pipe(fs.createWriteStream(`assets/images/${imageName}`))
 
-          const message = `ชื่อ: ${userData.name} ไลน์: ${userData.linename} เข้างาน${setTimeDiff > 0 ? 'ตรงเวลา' : 'สาย'}`
+          const message = `ชื่อ: ${userData.name} ไลน์: ${userData.linename} ${
+            checkinData === null
+              ? `เข้างาน${setTimeDiff > 0 ? 'ตรงเวลา' : 'สาย'}`
+              : 'CHECK OUT'
+          }`
 
           console.log(message);
           try {
