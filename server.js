@@ -19,6 +19,9 @@ mongoose.connection.on('error', err => {
 app.use(cors())
 app.use(express.json())
 
+var publicDir = require('path').join(__dirname,'./assets');
+app.use(express.static(publicDir));
+
 const apiRouter = require('./routers/api.router')
 app.use('/api/', apiRouter)
 app.use('/', function(req, res) {
