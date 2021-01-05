@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "format": "./node_modules/.bin/prettier --write server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "docker:build": "docker build -t chunwarayut/work-to-day-microservice:latest .",
+    "docker:push": "docker push chunwarayut/work-to-day-microservice:latest",
+    "docker:b:p": "npm run docker:build && npm run docker:push"
   },
   "keywords": [
     "RESTFul",
