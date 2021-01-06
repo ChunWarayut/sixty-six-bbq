@@ -8,7 +8,7 @@ var path = require('path')
 const MONGODB_URI =
   process.env.MONGODB_URI ||
   'mongodb://worktodayuser_dev:q3492Rsv@206.189.88.25/WorkToDayDEV'
-const PORT = process.env.PORT || 6000
+const PORT = process.env.PORT || 6001
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
@@ -26,10 +26,6 @@ const apiRouter = require('./routers/api.router')
 app.use('/api/', apiRouter)
 app.use('/', function(req, res) {
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
-})
-app.use('/image', express.static(path.join(__dirname, 'assets')))
-app.all('*', function(req, res) {
-  return apiResponse.notFoundResponse(res, 'Page not found')
 })
 app.listen(PORT, () => {
   console.log(`Application is running on port ${PORT}`)
