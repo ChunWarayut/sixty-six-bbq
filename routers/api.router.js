@@ -16,7 +16,9 @@ app.use('/worktime/', worktimeRoute)
 // app.use('/foodmenu/', foodmenuRoute)
 // app.use('/product/', productRoute)
 
-// throw 404 if URL not found
+var publicDir = require('path').join(__dirname, '../assets')
+app.use(express.static(publicDir))
+
 app.use('/', function(req, res) {
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
 })
