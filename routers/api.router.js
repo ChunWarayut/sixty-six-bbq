@@ -17,6 +17,10 @@ app.use('/worktime/', worktimeRoute)
 // app.use('/product/', productRoute)
 
 // throw 404 if URL not found
+app.use('/', function(req, res) {
+  return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
+})
+// throw 404 if URL not found
 app.all('*', function(req, res) {
   return apiResponse.notFoundResponse(res, 'Page not found')
 })

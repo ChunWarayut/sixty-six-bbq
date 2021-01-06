@@ -71,32 +71,40 @@ exports.checkinCheck = [
     .isLength({ min: 1, max: 200 })
     .trim(),
   async (req, res) => {
-    const payload = req.body
+    const id = req.body.userId
     try {
-      const checkUser = await User.findOne({
-        _id: payload.userId
-      })
-      const userData = new UserData(checkUser)
-      if (checkUser === null) {
-        return apiResponse.ErrorResponse(res, 'user Id exists with this id')
-      }
-      const checkin = await CheckIn.findOne({
-        userId: userData.id,
-        statusFlag: 'A',
-        checkOut: null
-      })
+          // VALIDATION CHECKIN
+          const errors = validationResult(req)
+          if (!errors.isEmpty()) {
+            return apiResponse.validationErrorWithData(
+              res,
+              'Validation Error.',
+              errors.array()
+            )
+          }
 
-      if (checkin !== null) {
-        let checkinData = new CheckInData(checkin)
-        return apiResponse.successResponseWithData(
-          res,
-          'Operation success',
-          checkinData
-        )
-      } else {
-        return apiResponse.notFoundResponse(res, 'Operation success', {})
-      }
-    } catch (error) {
+          const checkUser = await User.findById(id)
+          const userData = new UserData(checkUser)
+          if (checkUser === null) {
+            return apiResponse.ErrorResponse(res, 'user Id exists with this id')
+          }
+          const checkin = await CheckIn.findOne({
+            _id: userData.id,
+            statusFlag: 'A',
+            checkOut: null
+          })
+
+          if (checkin !== null) {
+            let checkinData = new CheckInData(checkin)
+            return apiResponse.successResponseWithData(
+              res,
+              'CHECK IN',
+              checkinData
+            )
+          } else {
+            return apiResponse.notFoundResponse(res, 'CHECK OUT', {})
+          }
+        } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
