@@ -8,7 +8,6 @@ var apiResponse = require('../helpers/apiResponse')
 // WorkTime Schema
 function WorkTimeData(data) {
   this.id = data._id
-  this.savetime = data.savetime
   this.timeIn = data.timeIn
   this.timeOut = data.timeOut
   this.description = data.description
@@ -56,9 +55,6 @@ exports.worktimeDetail = [
   }
 ]
 exports.worktimeStore = [
-  body('savetime', 'savetime must not be empty.')
-    .isLength({ min: 1, max: 200 })
-    .trim(),
   body('timeIn', 'timeIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -93,7 +89,6 @@ exports.worktimeStore = [
 
       // NEW WORKTIME
       const worktime = new WorkTime({
-        worktimename: payload.worktimename,
         timeIn: payload.timeIn,
         timeOut: payload.timeOut,
         description: payload.description,
@@ -116,9 +111,6 @@ exports.worktimeStore = [
   }
 ]
 exports.worktimeUpdate = [
-  body('savetime', 'savetime must not be empty.')
-    .isLength({ min: 1, max: 200 })
-    .trim(),
   body('timeIn', 'timeIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -144,7 +136,6 @@ exports.worktimeUpdate = [
 
     try {
       const worktime = new WorkTime({
-        worktimename: payload.worktimename,
         timeIn: payload.timeIn,
         timeOut: payload.timeOut,
         description: payload.description,
