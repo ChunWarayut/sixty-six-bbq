@@ -23,10 +23,19 @@ var publicDir = require('path').join(__dirname,'./assets');
 app.use(express.static(publicDir));
 
 const apiRouter = require('./routers/api.router')
+
+
 app.use('/api/', apiRouter)
-app.use('/', function(req, res) {
+
+app.get('/', function(req, res) {
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
 })
+
+// throw 404 if URL not found
+app.all('*', function(req, res) {
+  return apiResponse.notFoundResponse(res, 'Page not found')
+})
+
 app.listen(PORT, () => {
   console.log(`Application is running on port ${PORT}`)
 })

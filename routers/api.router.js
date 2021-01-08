@@ -7,19 +7,18 @@ var apiResponse = require('../helpers/apiResponse')
 
 var app = express()
 
+
+
 app.use('/user/', userRoute)
 app.use('/login/', loginRoute.userLogin)
 app.use('/checkin/', checkinRoute)
 app.use('/worktime/', worktimeRoute)
-// app.use('/contact/', contactRoute)
-// app.use('/image/', imageRoute)
-// app.use('/foodmenu/', foodmenuRoute)
-// app.use('/product/', productRoute)
 
 var publicDir = require('path').join(__dirname, '../assets')
 app.use(express.static(publicDir))
 
-app.use('/', function(req, res) {
+app.get('/', function(req, res) {
+  console.log(88)
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
 })
 // throw 404 if URL not found
