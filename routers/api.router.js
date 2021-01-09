@@ -17,6 +17,10 @@ app.use('/worktime/', worktimeRoute)
 var publicDir = require('path').join(__dirname, '../assets')
 app.use(express.static(publicDir))
 
+app.use('/images/*', (req, res) => {
+  res.sendFile(__dirname + '/default.png')
+})
+
 app.get('/', function(req, res) {
   console.log(88)
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')

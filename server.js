@@ -32,9 +32,9 @@ app.get('/', function(req, res) {
 })
 
 // throw 404 if URL not found
-app.all('*', function(req, res) {
-  return apiResponse.notFoundResponse(res, 'Page not found')
-})
+// app.all('*', function(req, res) {
+//   return apiResponse.notFoundResponse(res, 'Page not found')
+// })
 
 app.listen(PORT, () => {
   console.log(`Application is running on port ${PORT}`)
