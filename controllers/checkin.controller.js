@@ -310,3 +310,37 @@ exports.checkinStore = [
     }
   }
 ]
+exports.checkinHistory = [
+  body('userId', 'userId must not be empty.')
+    .isLength({ min: 1, max: 200 })
+    .trim(),
+  sanitizeBody('*').escape(),
+
+  async (req, res) => {
+    
+    const userId = req.body.userId
+    console.log("318 userId");
+    console.log(userId);
+    try {
+      // VALIDATION USER
+      const errors = validationResult(req)
+      
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Validation Error.',
+          errors.array()
+        )
+      } 
+      const checkins = await CheckIn.find({userId:mongoose.Types.ObjectId(userId)})
+      return apiResponse.successResponseWithData(
+        res,
+        'Operation success',
+        checkins
+      )
+    } catch (error) {
+      return apiResponse.ErrorResponse(res, error)
+    }
+    
+  }
+]
