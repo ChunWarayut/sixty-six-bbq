@@ -197,7 +197,7 @@ exports.checkinStore = [
       const setTimeDiff = getTimeCheckIn.diff(timeClock, 'second')
 
       imageName =
-        userData.id + dayjs().format('_YYYY_MM_DD_HH_mm_ss_A') + '.jpg'
+        dayjs().format('YYYY_MM_DD_HH_mm_ss_A_') + userData.id + '.jpg'
       base64 = he.decode(payload.image)
       const imageBufferData = Buffer.from(base64, 'base64')
       var streamObj = new ReadableData()

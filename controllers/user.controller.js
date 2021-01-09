@@ -3,7 +3,10 @@ const { body, validationResult } = require('express-validator')
 const { sanitizeBody } = require('express-validator')
 var mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+var dayjs = require('dayjs')
+const he = require('he')
+var ReadableData = require('stream').Readable
+var fs = require('fs')
 var apiResponse = require('../helpers/apiResponse')
 
 // User Schema
@@ -205,6 +208,75 @@ exports.userStore = [
         'User add Success.',
         userData
       )
+    } catch (error) {
+      return apiResponse.ErrorResponse(res, error)
+    }
+  }
+]
+exports.userUpdateImg = [
+  body('image', 'image must not be empty.')
+    .isLength({ min: 1 })
+    .trim(),
+  async (req, res) => {
+    const payload = req.body
+    const { id } = req.params
+
+    try {
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Validation Error.',
+          errors.array()
+        )
+      }
+
+      imageName = dayjs().format('YYYY_MM_DD_HH_mm_ss_A_') + id + '.jpg'
+      base64 = he.decode(payload.image)
+      const imageBufferData = Buffer.from(base64, 'base64')
+      var streamObj = new ReadableData()
+      streamObj.push(imageBufferData)
+      streamObj.push(null)
+      streamObj.pipe(
+        fs.createWriteStream(`assets/images/userProfile/${imageName}`)
+      )
+
+      const user = new User({
+        image: imageName,
+        _id: id
+      })
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Invalid Error.',
+          'Invalid ID'
+        )
+      }
+
+      const checkUser = await User.findById(id)
+      if (checkUser === null) {
+        return apiResponse.notFoundResponse(res, 'User not exists with this id')
+      }
+
+      const updateUser = await User.findByIdAndUpdate(id, {
+        $set: user
+      })
+
+      if (updateUser) {
+        let userData = new UserData(await User.findById(id))
+        return apiResponse.successResponseWithData(
+          res,
+          'User update Success.',
+          userData
+        )
+      } else {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Invalid Error.',
+          'Invalid ID'
+        )
+      }
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }

@@ -22,7 +22,6 @@ app.use('/images/*', (req, res) => {
 })
 
 app.get('/', function(req, res) {
-  console.log(88)
   return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
 })
 // throw 404 if URL not found
