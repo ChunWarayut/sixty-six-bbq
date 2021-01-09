@@ -14,6 +14,7 @@ var ReadableData = require('stream').Readable
 var axios = require('axios')
 var FormData = require('form-data')
 var fs = require('fs')
+const { url } = require('inspector')
 
 // CheckIn Schema
 function CheckInData(data) {
@@ -73,38 +74,34 @@ exports.checkinCheck = [
   async (req, res) => {
     const id = req.body.userId
     try {
-          // VALIDATION CHECKIN
-          const errors = validationResult(req)
-          if (!errors.isEmpty()) {
-            return apiResponse.validationErrorWithData(
-              res,
-              'Validation Error.',
-              errors.array()
-            )
-          }
+      // VALIDATION CHECKIN
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return apiResponse.validationErrorWithData(
+          res,
+          'Validation Error.',
+          errors.array()
+        )
+      }
 
-          const checkUser = await User.findById(id)
-          const userData = new UserData(checkUser)
-          if (checkUser === null) {
-            return apiResponse.ErrorResponse(res, 'user Id exists with this id')
-          }
-          const checkin = await CheckIn.findOne({
-            _id: userData.id,
-            statusFlag: 'A',
-            checkOut: null
-          })
+      const checkUser = await User.findById(id)
+      const userData = new UserData(checkUser)
+      if (checkUser === null) {
+        return apiResponse.ErrorResponse(res, 'user Id exists with this id')
+      }
+      const checkin = await CheckIn.findOne({
+        _id: userData.id,
+        statusFlag: 'A',
+        checkOut: null
+      })
 
-          if (checkin !== null) {
-            let checkinData = new CheckInData(checkin)
-            return apiResponse.successResponseWithData(
-              res,
-              'CHECK IN',
-              checkinData
-            )
-          } else {
-            return apiResponse.notFoundResponse(res, 'CHECK OUT', {})
-          }
-        } catch (error) {
+      if (checkin !== null) {
+        let checkinData = new CheckInData(checkin)
+        return apiResponse.successResponseWithData(res, 'CHECK IN', checkinData)
+      } else {
+        return apiResponse.notFoundResponse(res, 'CHECK OUT', {})
+      }
+    } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
@@ -311,36 +308,29 @@ exports.checkinStore = [
   }
 ]
 exports.checkinHistory = [
-  body('userId', 'userId must not be empty.')
-    .isLength({ min: 1, max: 200 })
-    .trim(),
-  sanitizeBody('*').escape(),
-
   async (req, res) => {
-    
-    const userId = req.body.userId
-    console.log("318 userId");
-    console.log(userId);
+    const { userId } = req.params
     try {
       // VALIDATION USER
       const errors = validationResult(req)
-      
+
       if (!errors.isEmpty()) {
         return apiResponse.validationErrorWithData(
           res,
           'Validation Error.',
           errors.array()
         )
-      } 
-      const checkins = await CheckIn.find({userId:mongoose.Types.ObjectId(userId)})
+      }
+      const checkins = await CheckIn.find({
+        userId: mongoose.Types.ObjectId(userId)
+      })
       return apiResponse.successResponseWithData(
         res,
         'Operation success',
         checkins
       )
     } catch (error) {
-      return apiResponse.ErrorResponse(res, error)
-    }
-    
+                      return apiResponse.ErrorResponse(res, error)
+                    }
   }
 ]
