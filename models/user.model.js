@@ -9,7 +9,6 @@ const userSchema = new Schema(
     name: String,
     linename: String,
     image: String,
-    team: String,
     workShiftID: String,
     statusFlag: String,
     createdBy: String,

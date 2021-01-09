@@ -3,7 +3,6 @@ const Schema = mongoose.Schema
 
 const worktimeSchema = new Schema(
   {
-    savetime: String,
     timeIn: String,
     timeOut: String,
     description: String,

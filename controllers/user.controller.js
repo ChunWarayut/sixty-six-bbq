@@ -18,7 +18,6 @@ function UserData(data) {
   this.name = data.name
   this.linename = data.linename
   this.image = data.image
-  this.team = data.team
   this.workShiftID = data.workShiftID
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
@@ -33,7 +32,6 @@ function UserDataLogin(data) {
   this.name = data.name
   this.linename = data.linename
   this.image = data.image
-  this.team = data.team
   this.workShiftID = data.workShiftID
 }
 
@@ -149,9 +147,6 @@ exports.userStore = [
   body('image', 'image must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('team', 'team must not be empty.')
-    .isLength({ min: 1, max: 200 })
-    .trim(),
   body('workShiftID', 'work shift must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
@@ -193,7 +188,6 @@ exports.userStore = [
         name: payload.name,
         linename: payload.linename,
         image: payload.image,
-        team: payload.team,
         workShiftID: payload.workShiftID,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
@@ -299,9 +293,6 @@ exports.userUpdate = [
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('image', 'image must not be empty.')
-    .isLength({ min: 1, max: 200 })
-    .trim(),
-  body('team', 'team must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
   body('workShiftID', 'work shift must not be empty.')
