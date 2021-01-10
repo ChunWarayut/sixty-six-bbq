@@ -74,34 +74,41 @@ exports.checkinCheck = [
   async (req, res) => {
     const id = req.body.userId
     try {
-      // VALIDATION CHECKIN
-      const errors = validationResult(req)
-      if (!errors.isEmpty()) {
-        return apiResponse.validationErrorWithData(
-          res,
-          'Validation Error.',
-          errors.array()
-        )
-      }
+          // VALIDATION CHECKIN
+          const errors = validationResult(req)
+          if (!errors.isEmpty()) {
+            return apiResponse.validationErrorWithData(
+              res,
+              'Validation Error.',
+              errors.array()
+            )
+          }
 
-      const checkUser = await User.findById(id)
-      const userData = new UserData(checkUser)
-      if (checkUser === null) {
-        return apiResponse.ErrorResponse(res, 'user Id exists with this id')
-      }
-      const checkin = await CheckIn.findOne({
-        _id: userData.id,
-        statusFlag: 'A',
-        checkOut: null
-      })
+          const checkUser = await User.findById(id)
+          const userData = new UserData(checkUser)
+          
+          if (checkUser === null) {
+            return apiResponse.ErrorResponse(res, 'user Id exists with this id')
+          }
 
-      if (checkin !== null) {
-        let checkinData = new CheckInData(checkin)
-        return apiResponse.successResponseWithData(res, 'CHECK IN', checkinData)
-      } else {
-        return apiResponse.notFoundResponse(res, 'CHECK OUT', {})
-      }
-    } catch (error) {
+          const checkin = await CheckIn.findOne({
+            userId: userData.id,
+            statusFlag: 'A',
+            checkOut: null
+          })
+
+
+          if (checkin !== null) {
+            let checkinData = new CheckInData(checkin)
+            return apiResponse.successResponseWithData(
+              res,
+              'CHECK IN',
+              checkinData
+            )
+          } else {
+            return apiResponse.notFoundResponse(res, 'CHECK OUT', {})
+          }
+        } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
