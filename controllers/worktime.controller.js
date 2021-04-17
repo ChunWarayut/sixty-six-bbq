@@ -1,17 +1,16 @@
-const About = require('../models/about.model')
+const WorkTime = require('../models/worktime.model')
 const { body, validationResult } = require('express-validator')
 const { sanitizeBody } = require('express-validator')
 var mongoose = require('mongoose')
 
 var apiResponse = require('../helpers/apiResponse')
 
-// About Schema
-function AboutData(data) {
+// WorkTime Schema
+function WorkTimeData(data) {
   this.id = data._id
-  this.titleTH = data.titleTH
-  this.titleEN = data.titleEN
-  this.detailTH = data.detailTH
-  this.detailEN = data.detailEN
+  this.timeIn = data.timeIn
+  this.timeOut = data.timeOut
+  this.description = data.description
   this.statusFlag = data.statusFlag
   this.createdBy = data.createdBy
   this.createdAt = data.createdAt
@@ -19,33 +18,33 @@ function AboutData(data) {
   this.updatedAt = data.updatedAt
 }
 
-exports.aboutList = [
+exports.worktimeList = [
   async (req, res) => {
     try {
-      const abouts = await About.find({})
+      const worktimes = await WorkTime.find({})
       return apiResponse.successResponseWithData(
         res,
         'Operation success',
-        abouts
+        worktimes
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.aboutDetail = [
+exports.worktimeDetail = [
   async (req, res) => {
     const { id } = req.params
 
     try {
-      const about = await About.findById(id)
+      const worktime = await WorkTime.findById(id)
 
-      if (about !== null) {
-        let aboutData = new AboutData(about)
+      if (worktime !== null) {
+        let worktimeData = new WorkTimeData(worktime)
         return apiResponse.successResponseWithData(
           res,
           'Operation success',
-          aboutData
+          worktimeData
         )
       } else {
         return apiResponse.successResponseWithData(res, 'Operation success', {})
@@ -55,18 +54,15 @@ exports.aboutDetail = [
     }
   }
 ]
-exports.aboutStore = [
-  body('titleTH', 'titleTH must not be empty.')
+exports.worktimeStore = [
+  body('timeIn', 'timeIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('titleEN', 'titleEN must not be empty.')
+  body('timeOut', 'timeOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('detailTH', 'detailTH must not be empty.')
-    .isLength({ min: 1 })
-    .trim(),
-  body('detailEN', 'detailEN must not be empty.')
-    .isLength({ min: 1 })
+  body('description', 'description must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
@@ -81,7 +77,7 @@ exports.aboutStore = [
   async (req, res) => {
     const payload = req.body
     try {
-      // VALIDATION ABOUT
+      // VALIDATION WORKTIME
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
         return apiResponse.validationErrorWithData(
@@ -91,42 +87,38 @@ exports.aboutStore = [
         )
       }
 
-      // NEW ABOUT
-      const about = new About({
-        titleTH: payload.titleTH,
-        titleEN: payload.titleEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+      // NEW WORKTIME
+      const worktime = new WorkTime({
+        timeIn: payload.timeIn,
+        timeOut: payload.timeOut,
+        description: payload.description,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy
       })
 
-      // SAVE ABOUT
-      await about.save()
-      let aboutData = new AboutData(about)
+      // SAVE WORKTIME
+      await worktime.save()
+      let worktimeData = new WorkTimeData(worktime)
       return apiResponse.successResponseWithData(
         res,
-        'About add Success.',
-        aboutData
+        'WorkTime add Success.',
+        worktimeData
       )
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }
   }
 ]
-exports.aboutUpdate = [
-  body('titleTH', 'titleTH must not be empty.')
+exports.worktimeUpdate = [
+  body('timeIn', 'timeIn must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('titleEN', 'titleEN must not be empty.')
+  body('timeOut', 'timeOut must not be empty.')
     .isLength({ min: 1, max: 200 })
     .trim(),
-  body('detailTH', 'detailTH must not be empty.')
-    .isLength({ min: 1 })
-    .trim(),
-  body('detailEN', 'detailEN must not be empty.')
-    .isLength({ min: 1 })
+  body('description', 'description must not be empty.')
+    .isLength({ min: 1, max: 200 })
     .trim(),
   body('statusFlag', 'statusFlag must be 1 length.')
     .isLength({ min: 1, max: 1 })
@@ -143,11 +135,10 @@ exports.aboutUpdate = [
     const { id } = req.params
 
     try {
-      const about = new About({
-        titleTH: payload.titleTH,
-        titleEN: payload.titleEN,
-        detailTH: payload.detailTH,
-        detailEN: payload.detailEN,
+      const worktime = new WorkTime({
+        timeIn: payload.timeIn,
+        timeOut: payload.timeOut,
+        description: payload.description,
         statusFlag: payload.statusFlag,
         createdBy: payload.createdBy,
         updatedBy: payload.updatedBy,
@@ -162,24 +153,24 @@ exports.aboutUpdate = [
         )
       }
 
-      const checkAbout = await About.findById(id)
-      if (checkAbout === null) {
+      const checkWorkTime = await WorkTime.findById(id)
+      if (checkWorkTime === null) {
         return apiResponse.notFoundResponse(
           res,
-          'About not exists with this id'
+          'WorkTime not exists with this id'
         )
       }
 
-      const updateAbout = await About.findByIdAndUpdate(id, {
-        $set: about
+      const updateWorkTime = await WorkTime.findByIdAndUpdate(id, {
+        $set: worktime
       })
 
-      if (updateAbout) {
-        let aboutData = new AboutData(await About.findById(id))
+      if (updateWorkTime) {
+        let worktimeData = new WorkTimeData(await WorkTime.findById(id))
         return apiResponse.successResponseWithData(
           res,
-          'About update Success.',
-          aboutData
+          'WorkTime update Success.',
+          worktimeData
         )
       } else {
         return apiResponse.validationErrorWithData(
@@ -194,7 +185,7 @@ exports.aboutUpdate = [
   }
 ]
 
-exports.aboutDelete = [
+exports.worktimeDelete = [
   async (req, res) => {
     const { id } = req.params
 
@@ -207,17 +198,17 @@ exports.aboutDelete = [
         )
       }
 
-      const checkAbout = await About.findById(id)
-      if (checkAbout === null) {
+      const checkWorkTime = await WorkTime.findById(id)
+      if (checkWorkTime === null) {
         return apiResponse.notFoundResponse(
           res,
-          'About not exists with this id'
+          'WorkTime not exists with this id'
         )
       }
 
-      await About.findByIdAndDelete(id)
+      await WorkTime.findByIdAndDelete(id)
 
-      return apiResponse.successResponse(res, `About delete Success.`)
+      return apiResponse.successResponse(res, `WorkTime delete Success.`)
     } catch (error) {
       return apiResponse.ErrorResponse(res, error)
     }

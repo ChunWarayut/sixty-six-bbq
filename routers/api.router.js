@@ -1,15 +1,29 @@
 var express = require('express')
-const aboutRoute = require('./about.router')
-const blogRoute = require('./blog.router')
-const productRoute = require('./product.router')
+const userRoute = require('./user.router')
+const loginRoute = require('../controllers/user.controller')
+const checkinRoute = require('./checkin.router')
+const worktimeRoute = require('./worktime.router')
 var apiResponse = require('../helpers/apiResponse')
 
 var app = express()
 
-app.use('/about/', aboutRoute)
-app.use('/blog/', blogRoute)
-app.use('/product/', productRoute)
 
+
+app.use('/user/', userRoute)
+app.use('/login/', loginRoute.userLogin)
+app.use('/checkin/', checkinRoute)
+app.use('/worktime/', worktimeRoute)
+
+var publicDir = require('path').join(__dirname, '../assets')
+app.use(express.static(publicDir))
+
+app.use('/images/*', (req, res) => {
+  res.sendFile(__dirname + '/default.png')
+})
+
+app.get('/', function(req, res) {
+  return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
+})
 // throw 404 if URL not found
 app.all('*', function(req, res) {
   return apiResponse.notFoundResponse(res, 'Page not found')
