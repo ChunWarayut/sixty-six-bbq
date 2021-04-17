@@ -27,7 +27,7 @@ const apiRouter = require('./routers/api.router')
 app.use('/api/', apiRouter)
 
 app.get('/', function(req, res) {
-  return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ')
+  return apiResponse.successResponse(res, 'Welcome To Sixty Six BBQ v1.0.0')
 })
 
 // throw 404 if URL not found
