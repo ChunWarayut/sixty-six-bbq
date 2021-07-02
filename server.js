@@ -7,7 +7,7 @@ var path = require('path')
 
 const MONGODB_URI =
   process.env.MONGODB_URI ||
-  'mongodb://worktodayuser_dev:q3492Rsv@206.189.88.25/WorkToDayDEV'
+  'mongodb://worktodayuser_dev:q3492Rsv@157.230.45.203/WorkToDayDEV'
 const PORT = process.env.PORT || 6001
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
